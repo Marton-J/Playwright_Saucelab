@@ -1,0 +1,4 @@
+# Step 1: Initialize a new Node.js project
+npm init playwright@latest
+
+npm i dotenv
