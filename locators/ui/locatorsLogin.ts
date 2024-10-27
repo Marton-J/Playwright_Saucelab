@@ -1,4 +1,3 @@
-
 export const locatorsLogin = {
   loginButton: '[data-test="login-button"]',
   usernameField: '[data-test="username"]',

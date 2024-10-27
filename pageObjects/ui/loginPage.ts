@@ -1,4 +1,4 @@
-import { locatorsLogin } from '../../locators/locatorsLogin';
+import { locatorsLogin } from '../../locators/ui/locatorsLogin';
 import { expect } from '@playwright/test';
 import { Page } from 'playwright';
 

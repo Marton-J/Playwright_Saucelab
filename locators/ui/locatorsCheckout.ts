@@ -1,0 +1,21 @@
+export const locatorsCheckout = {
+    appLogo: '.app_logo',
+    title: '.title[data-test="title"]',
+    firstNameInput: 'input[data-test="firstName"]',
+    lastNameInput: 'input[data-test="lastName"]',
+    postalCodeInput: 'input[data-test="postalCode"]',
+    cancelButton: 'button[data-test="cancel"]',
+    continueButton: 'input[data-test="continue"]',
+    badgeElement: '.shopping_cart_badge',
+    appLogoText: 'Swag Labs',
+    titleText: 'Checkout: Your Information',
+    firstNamePlaceholder: 'First Name',
+    lastNamePlaceholder: 'Last Name',
+    postalCodePlaceholder: 'Zip/Postal Code',
+    cancelButtonText: 'Cancel',
+    continueButtonText: 'Continue',
+    attributePlaceholder: 'placeholder',
+    firstNameValue: 'Ash',
+    lastNameValue: 'Ketchum',
+    postalCodeValue: '12345'
+};

@@ -1,13 +1,20 @@
 import { test, expect } from '@playwright/test';
-import { PokeAPIPage } from '../../pageObjects/api/pokemon.page.ts';
+import { PokeAPIPage } from '../../pageObjects/api/pokemon.page';
 import { logResponseStatus } from '../../util/api/apiLogRequests';
 
-test.describe('PokeAPI Tests', {
-  tag: '@Pokemon_API'
+test.describe('PokeAPI Smoke Test', {
+  tag: '@Pokemon_API_Smoke_Tests'
 }, () => {
+  let pokeAPIPage: PokeAPIPage;
+
+  test.beforeAll(() => {
+    pokeAPIPage = new PokeAPIPage();
+    console.log('\nTestBaseUrl:', `${pokeAPIPage.baseUrlApi}\n`);
+  });
+  
   test('Retrieve a list of Pokémon', async ({ request }) => {
+    await new Promise(resolve => setTimeout(resolve, 50));
     const pokeAPIPage = new PokeAPIPage();
-    console.log('BaseURL:', `${pokeAPIPage.baseUrlApi}\n`);
     const response = await pokeAPIPage.getPokemonList(request);
     logResponseStatus(response);
     expect(response.status()).toBe(200);
@@ -18,6 +25,7 @@ test.describe('PokeAPI Tests', {
 
   // Example GET Pokémon ID (Bulbasaur)
   test('Retrieve a single Pokémon by ID', async ({ request }) => {
+    await new Promise(resolve => setTimeout(resolve, 13));
     const pokeAPIPage = new PokeAPIPage();
     const pokemonName = 'bulbasaur';
     const pokemonId = 1;
