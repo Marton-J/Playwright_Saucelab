@@ -6,6 +6,7 @@ import { CheckoutPage } from '../../../pageObjects/ui/checkoutPage.ts';
 import { locatorsInventory } from '../../../locators/ui/locatorsInventory.ts';
 import { locatorsCart } from '../../../locators/ui/locatorsCart.ts';
 import { locatorsCheckout } from '../../../locators/ui/locatorsCheckout.ts';
+
 import * as dotenv from 'dotenv';
 
 dotenv.config();
@@ -17,8 +18,8 @@ let inventoryPage: InventoryPage;
 let cartPage: CartPage;
 let checkoutPage: CheckoutPage;
 
-test.describe('Inventory product flow standard_user', {
-  tag: '@UI_Test_Inventory_Flow',
+test.describe('Checkout product flow standard_user', {
+  tag: '@UI_Test_Checkout_Flow',
 }, () => {
 
   test.beforeEach(async () => {
@@ -41,7 +42,6 @@ test.describe('Inventory product flow standard_user', {
   test('Inventory Third product - Proceed to checkout and press Cancel', async () => {
     const cartPage = new CartPage(page);
     await inventoryPage.addSecondElementToCart();
-    await page.screenshot({ path: 'visual_comparison_data/inventory/addSecondElementToCart.png' });
     await inventoryPage.navigateToCart();
     await page.isVisible(locatorsCart.checkOutButtonText);
     await page.click(locatorsCart.checkOutButton);
@@ -53,15 +53,12 @@ test.describe('Inventory product flow standard_user', {
     await checkoutPage.verifyCancelButton();
     await checkoutPage.verifyContinueButton();
     await checkoutPage.verifyBadgeElement('1');
-    await page.screenshot({ path: 'visual_comparison_data/your_information/checkoutPage.png' });
     await checkoutPage.cancelFromCheckoutToCart();
-    await page.screenshot({ path: 'visual_comparison_data/cart/backToCart.png' });
   });
 
-  test('Inventory Third product - Fill out customer details with valid customer information', async () => {
+  test('Inventory Second product - Fill out customer details with valid customer information', async () => {
     const cartPage = new CartPage(page);
     await inventoryPage.addSecondElementToCart();
-    await page.screenshot({ path: 'visual_comparison_data/inventory/addSecondElementToCart.png' });
     await inventoryPage.navigateToCart();
     await page.isVisible(locatorsCart.checkOutButtonText);
     await page.click(locatorsCart.checkOutButton);
@@ -69,8 +66,6 @@ test.describe('Inventory product flow standard_user', {
     await checkoutPage.fillLastName(locatorsCheckout.lastNameValue);
     await checkoutPage.fillPostalCode(locatorsCheckout.postalCodeValue);
     await checkoutPage.verifyInputValues(locatorsCheckout.firstNameValue, locatorsCheckout.lastNameValue, locatorsCheckout.postalCodeValue);
-    await page.screenshot({ path: 'visual_comparison_data/your_information/validCustomerDetails.png' });
     await page.click(locatorsCheckout.continueButton)
-    await page.screenshot({ path: 'visual_comparison_data/overview/validUserVerifyPurchase.png' });
   });
 });

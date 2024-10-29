@@ -4,12 +4,8 @@ import { InventoryPage } from '../../../pageObjects/ui/inventoryPage';
 import { CartPage } from '../../../pageObjects/ui/cartPage';
 import { locatorsInventory } from '../../../locators/ui/locatorsInventory';
 import { locatorsCart } from '../../../locators/ui/locatorsCart';
-import { CheckoutPage } from '../../../pageObjects/ui/checkoutPage';
-import { locatorsCheckout } from '../../../locators/ui/locatorsCheckout';
-import { locatorsComplete } from '../../../locators/ui/locatorsComplete';
-import { CompletePage } from '../../../pageObjects/ui/completePage';
-
 import * as dotenv from 'dotenv';
+import { CheckoutPage } from '../../../pageObjects/ui/checkoutPage';
 
 dotenv.config();
 
@@ -18,11 +14,9 @@ let page;
 let loginPage: LoginPage;
 let inventoryPage: InventoryPage;
 let checkoutPage: CheckoutPage;
-let completePage: CompletePage;
-let cartPage: CartPage;
 
-test.describe('E2E Test', {
-  tag: '@UI_E2E_Test_Flow',
+test.describe('Cart product flow standard_user', {
+  tag: '@UI_Test_Cart_Flow',
 }, () => {
 
   test.beforeEach(async () => {
@@ -31,8 +25,6 @@ test.describe('E2E Test', {
     loginPage = new LoginPage(page);
     inventoryPage = new InventoryPage(page);
     checkoutPage = new CheckoutPage(page);
-    completePage = new CompletePage(page);
-    cartPage = new CartPage(page);
     await loginPage.performLogin();
     await loginPage.login(process.env.USERNAME ?? '', process.env.PASSWORD ?? '');
     const currentUrl = await page.url();
@@ -43,7 +35,21 @@ test.describe('E2E Test', {
     await browser.close();
   });
 
-  test('Cart add last alphabetical product and product to the right based on price - Proceed to cart', async () => {
+  test('Cart Second product - Proceed to cart', async () => {
+    const cartPage = new CartPage(page);
+    await inventoryPage.addSecondElementToCart();
+    await inventoryPage.navigateToCart();
+    await cartPage.verifyPageTitle();
+    await cartPage.verifyCartQuantityLabel();
+    await cartPage.verifyCartDescLabel();
+    await cartPage.verifyRemoveButton();
+    await cartPage.verifyContinueShoppingButton();
+    await page.locator(locatorsCart.continueShoppingButton).click();
+    await inventoryPage.navigateToCart();
+  });
+
+  test('Cart add two products - Verify Content', async () => {
+    const cartPage = new CartPage(page);
     await inventoryPage.inventoryProductSortByPrice();
     await inventoryPage.addLastElementToCart();
     await inventoryPage.verifyBadgeElement('1');
@@ -55,23 +61,6 @@ test.describe('E2E Test', {
     const cartNames = await cartPage.getCartItemNames();
     expect(cartNames.sort()).toEqual(inventoryNames.sort());
     await cartPage.verifyBadgeElement('2');
-    await page.click(locatorsCart.checkOutButton);
-    await checkoutPage.verifyBadgeElement('2');
-    await checkoutPage.fillFirstName(locatorsCheckout.firstNameValue);
-    await checkoutPage.fillLastName(locatorsCheckout.lastNameValue);
-    await checkoutPage.fillPostalCode(locatorsCheckout.postalCodeValue);
-    await checkoutPage.verifyInputValues(locatorsCheckout.firstNameValue, locatorsCheckout.lastNameValue, locatorsCheckout.postalCodeValue);
-    await page.click(locatorsCheckout.continueButton)
-    await checkoutPage.verifyBadgeElement('2');
-    const checkoutNames = await cartPage.getCartItemNames();
-    expect(checkoutNames.sort()).toEqual(inventoryNames.sort());
-    expect(checkoutNames.sort()).toEqual(cartNames.sort());
-    await page.click(locatorsCheckout.finishButton);
-// Complete
-
-await completePage.verifyCompletePage(locatorsComplete);
-
-await page.screenshot({ path: 'CompletePage.png' });
   });
 });
 

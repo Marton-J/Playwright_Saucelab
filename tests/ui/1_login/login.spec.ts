@@ -1,6 +1,7 @@
 import { test, expect, chromium } from '@playwright/test';
 import { LoginPage } from '../../../pageObjects/ui/loginPage';
 import { locatorsInventory } from '../../../locators/ui/locatorsInventory';
+
 import * as dotenv from 'dotenv';
 
 dotenv.config();
@@ -18,7 +19,6 @@ test.describe('Purchase product flow standard_user', {
     page = await browser.newPage();
     loginPage = new LoginPage(page);
     await loginPage.performLogin();
-    await page.screenshot({ path: 'visual_comparison_data/login/login.png' });
   });
 
   test.afterEach(async () => {
@@ -29,13 +29,11 @@ test.describe('Purchase product flow standard_user', {
     await loginPage.login(process.env.USERNAME ?? '', process.env.PASSWORD ?? '');
     const currentUrl = await page.url();
     expect(currentUrl).toBe(locatorsInventory.inventoryPageTile);
-    await page.screenshot({ path: 'visual_comparison_data/inventory/standard_user.png' });
   });
 
   test('The locked_out_user should not be able to login.', async () => {
     await loginPage.login(process.env.LOCKED_USERNAME ?? '', process.env.PASSWORD ?? '');
     await loginPage.checkError();
-    await page.screenshot({ path: 'visual_comparison_data/login/locked_out_user.png' });
   });
 });
 
