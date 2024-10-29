@@ -34,7 +34,7 @@ test.describe('E2E Test', {
     completePage = new CompletePage(page);
     cartPage = new CartPage(page);
     await loginPage.performLogin();
-    await page.screenshot({ path: 'locators/visual_comparison/01_login.png' });
+//    await page.screenshot({ path: 'visualComparisonImages/01_login.png' });
     await loginPage.login(process.env.USERNAME ?? '', process.env.PASSWORD ?? '');
     const currentUrl = await page.url();
     expect(currentUrl).toBe(locatorsInventory.inventoryPageTile);
@@ -46,35 +46,35 @@ test.describe('E2E Test', {
 
   test('Cart add last alphabetical product and product to the right based on price - Proceed to cart', async () => {
 // Inventory Page
-    await page.screenshot({ path: 'locators/visual_comparison/02_inventory.png' });
+    await page.screenshot({ path: 'visualComparisonImages/02_inventory.png' });
     await inventoryPage.inventoryProductSortByPrice();
     await inventoryPage.addLastElementToCart();
-    await page.screenshot({ path: 'locators/visual_comparison/03_addLastElementToCartBasedOnPrice.png' });
+    await page.screenshot({ path: 'visualComparisonImages/03_addLastElementToCartBasedOnPrice.png' });
     await inventoryPage.verifyBadgeElement('1');
     await inventoryPage.inventoryProductSortByNameAZ();
     await inventoryPage.addSecondElementToCart();
     await inventoryPage.verifyBadgeElement('2');
-    await page.screenshot({ path: 'locators/visual_comparison/04_addSecondElementToCartBasedOnAlphabeticalOrder.png' });
+    await page.screenshot({ path: 'visualComparisonImages/04_addSecondElementToCartBasedOnAlphabeticalOrder.png' });
     const inventoryNames = await inventoryPage.getInventoryItemNames();
     await inventoryPage.navigateToCart();
 // Cart Page
-    await page.screenshot({ path: 'locators/visual_comparison/06_navigateToCart.png' });
+    await page.screenshot({ path: 'visualComparisonImages/06_navigateToCart.png' });
     const cartNames = await cartPage.getCartItemNames();
     expect(cartNames.sort()).toEqual(inventoryNames.sort());
     await cartPage.verifyBadgeElement('2');
     await page.click(locatorsCart.checkOutButton);
 // Your Information Page
-    await page.screenshot({ path: 'locators/visual_comparison/07_navigateToYourInformation.png' });
+    await page.screenshot({ path: 'visualComparisonImages/07_navigateToYourInformation.png' });
     await checkoutPage.verifyBadgeElement('2');
     await checkoutPage.fillFirstName(locatorsCheckout.firstNameValue);
     await checkoutPage.fillLastName(locatorsCheckout.lastNameValue);
     await checkoutPage.fillPostalCode(locatorsCheckout.postalCodeValue);
     await checkoutPage.verifyInputValues(locatorsCheckout.firstNameValue, locatorsCheckout.lastNameValue, locatorsCheckout.postalCodeValue);
 // Information filled out
-    await page.screenshot({ path: 'locators/visual_comparison/08_informationFilledOut.png' });
+    await page.screenshot({ path: 'visualComparisonImages/08_informationFilledOut.png' });
     await page.click(locatorsCheckout.continueButton)
 // Overview Page
-    await page.screenshot({ path: 'locators/visual_comparison/09_navigateToOverview.png' });
+    await page.screenshot({ path: 'visualComparisonImages/09_navigateToOverview.png' });
     await checkoutPage.verifyBadgeElement('2');
     const checkoutNames = await cartPage.getCartItemNames();
     expect(checkoutNames.sort()).toEqual(inventoryNames.sort());
@@ -82,7 +82,29 @@ test.describe('E2E Test', {
     await page.click(locatorsCheckout.finishButton);
 // Complete Page
     await completePage.verifyCompletePage(locatorsComplete);
-    await page.screenshot({ path: 'locators/visual_comparison/10_CompleteE2eTest.png' });
+    await page.screenshot({ path: 'visualComparisonImages/10_CompleteE2eTest.png' });
+  });
+
+  test('Visual test - Proceed to cart', async ({ page }) => {
+    // Inventory Page
+    const screenshotPath = 'locators/visualComparisonLocators/02_inventory.png';
+    const snapshotPath = 'tests/ui/5_e2e_test/e2e_test.spec.ts-snapshots/locators-visualComparisonLocators-02-inventory-chromium-darwin.png';
+  
+    // Check if snapshot exists
+    const fs = require('fs');
+    if (!fs.existsSync(snapshotPath)) {
+      // Generate the snapshot
+      await page.screenshot({ path: screenshotPath });
+    }
+  
+    // Compare the screenshot
+    await page.waitForTimeout(1000);
+    await expect(page).toHaveScreenshot(screenshotPath);
+    await inventoryPage.inventoryProductSortByPrice();
+    await inventoryPage.addLastElementToCart();
+  });
+
+  test.afterEach(async () => {
+    await page.close();
   });
 });
-

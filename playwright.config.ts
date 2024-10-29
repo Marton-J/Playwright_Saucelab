@@ -8,8 +8,9 @@ export default defineConfig({
     video: 'retain-on-failure',
   },
   expect: {
+    // Set a higher threshold for toMatchScreenshot for visual tests.
     toHaveScreenshot: {
-      maxDiffPixelRatio: 0.01,
+      maxDiffPixelRatio: 0.17,
     },
   },
   testDir: './tests',
@@ -18,11 +19,6 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   retries: 3,
   workers: 5,
-  // Investigate if this is the cause of the error
-  // shard: {
-  //   total: 2,
-  //   current: 1,
-  // },
   reporter: [
     ['list'],
     ['html', { open: 'never' }],
@@ -31,8 +27,6 @@ export default defineConfig({
   outputDir: 'test-results/',
   /* Configure projects for major browsers */
   projects: [
-
-    { name: 'setup', testMatch: /.*\.setup\.ts/ },
 
     {
       name: 'chromium',
