@@ -17,5 +17,6 @@ export const locatorsCheckout = {
     attributePlaceholder: 'placeholder',
     firstNameValue: 'Ash',
     lastNameValue: 'Ketchum',
-    postalCodeValue: '12345'
+    postalCodeValue: '12345',
+    finishButton: 'button[data-test="finish"]'
 };

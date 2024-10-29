@@ -5,29 +5,50 @@ import { Page } from 'playwright';
 export class InventoryPage {
     private page: Page;
     private locatorsInventory = locatorsInventory;
+    readonly badgeElementLocator: string;
 
     constructor(page: Page) {
         this.page = page;
+        this.badgeElementLocator = locatorsInventory.badgeElement;
     }
 
     // The following method is used in the test file for sorting the products by low to high price
     async inventoryProductSortByPrice() {
-        await this.page.getByText(this.locatorsInventory.sortByName).isVisible();
-        await this.page.getByText(this.locatorsInventory.sortByName).click();
         await this.page.locator(this.locatorsInventory.sortDropdown).selectOption(this.locatorsInventory.lowToHighPrice);
-        const expectedPrices = ['$7.99', '$9.99', '$15.99', '$15.99', '$29.99', '$49.99'];
         const priceElements = await this.page.locator(this.locatorsInventory.productPrices).allTextContents();
-        expect(priceElements).toEqual(expectedPrices);
+        const prices = priceElements.map(price => parseFloat(price.replace('$', '')));
+        //console.log(prices);
+        const isSorted = prices.every((price, index, array) => index === 0 || array[index - 1] <= price);
+        if (!isSorted) {
+            console.log('Items are not sorted by price from low to highest');
+        }
+        
+        expect(isSorted).toBe(true);
     }
 
     // The following method is used in the test file for sorting the products by alphabetical order
     async inventoryProductSortByNameAZ() {
-        await this.page.getByText(this.locatorsInventory.sortByName).isVisible();
-        await this.page.getByText(this.locatorsInventory.sortByName).click();
-        await this.page.locator(this.locatorsInventory.sortDropdown).selectOption(this.locatorsInventory.alphabeticalSorted);
-        const expectedPrices = ['$29.99', '$9.99', '$15.99', '$49.99', '$7.99', '$15.99'];
-        const priceElements = await this.page.locator(this.locatorsInventory.productPrices).allTextContents();
-        expect(priceElements).toEqual(expectedPrices);
+        try {
+            await this.page.locator(this.locatorsInventory.sortDropdown).selectOption(this.locatorsInventory.alphabeticalSorted);
+        
+            const inventoryItems = await this.page.locator(this.locatorsInventory.productNames).elementHandles();
+            const itemNames: string[] = [];
+            for (const item of inventoryItems) {
+                const itemName = await item.textContent();
+                if (itemName) {
+                    itemNames.push(itemName);
+                }
+            }
+            const isSorted = itemNames.every((name, index, array) => index === 0 || array[index - 1].localeCompare(name) <= 0);
+            if (!isSorted) {
+                console.log('Items are not sorted by name from A to Z');
+            }
+
+            expect(isSorted).toBe(true);
+        } catch (error) {
+            console.error('Error during sorting by name:', error);
+            throw error; // Re-throw the error after logging it
+        }
     }
 
     // The following method is used in the test file for adding the last element to the cart
@@ -104,4 +125,29 @@ export class InventoryPage {
     async navigateToCart() {
         await this.page.locator(this.locatorsInventory.cartLink).click();
     }
+
+    // Method to get inventory item names
+    async getInventoryItemNames(): Promise<string[]> {
+        const inventoryItemNames: string[] = [];
+        const removeButtons = await this.page.$$(this.locatorsInventory.wildcardRemoveButton);
+        for (const button of removeButtons) {
+            const parentElement = await button.$(this.locatorsInventory.inventoryDescription);
+            if (parentElement) {
+                const itemNameElement = await parentElement.$(this.locatorsInventory.productNames);
+                if (itemNameElement) {
+                    const itemName = await itemNameElement.textContent();
+                    if (itemName) {
+                        inventoryItemNames.push(itemName);
+                    }
+                }
+            }
+        }
+        return inventoryItemNames;
+    }
+
+    async verifyBadgeElement(expectedText: string) {
+        const badgeElement = this.page.locator(this.badgeElementLocator);
+        await expect(badgeElement).toBeVisible();
+        await expect(badgeElement).toHaveText(expectedText);
+      }
 }

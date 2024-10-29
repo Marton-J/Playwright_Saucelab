@@ -1,11 +1,11 @@
 import { test, expect, chromium } from '@playwright/test';
-import { LoginPage } from '../../../pageObjects/ui/loginPage';
-import { InventoryPage } from '../../../pageObjects/ui/inventoryPage';
-import { CartPage } from '../../../pageObjects/ui/cartPage';
+import { LoginPage } from '../../../pageObjects/ui/loginPage.ts';
+import { InventoryPage } from '../../../pageObjects/ui/inventoryPage.ts';
+import { CartPage } from '../../../pageObjects/ui/cartPage.ts';
 import { CheckoutPage } from '../../../pageObjects/ui/checkoutPage.ts';
-import { locatorsInventory } from '../../../locators/ui/locatorsInventory';
-import { locatorsCart } from '../../../locators/ui/locatorsCart';
-import { locatorsCheckout } from '../../../locators/ui/locatorsCheckout';
+import { locatorsInventory } from '../../../locators/ui/locatorsInventory.ts';
+import { locatorsCart } from '../../../locators/ui/locatorsCart.ts';
+import { locatorsCheckout } from '../../../locators/ui/locatorsCheckout.ts';
 import * as dotenv from 'dotenv';
 
 dotenv.config();
@@ -40,8 +40,8 @@ test.describe('Inventory product flow standard_user', {
 
   test('Inventory Third product - Proceed to checkout and press Cancel', async () => {
     const cartPage = new CartPage(page);
-    await inventoryPage.addThirdElementToCart();
-    await page.screenshot({ path: 'visual_comparison_data/inventory/addThirdElementToCart.png' });
+    await inventoryPage.addSecondElementToCart();
+    await page.screenshot({ path: 'visual_comparison_data/inventory/addSecondElementToCart.png' });
     await inventoryPage.navigateToCart();
     await page.isVisible(locatorsCart.checkOutButtonText);
     await page.click(locatorsCart.checkOutButton);
@@ -60,8 +60,8 @@ test.describe('Inventory product flow standard_user', {
 
   test('Inventory Third product - Fill out customer details with valid customer information', async () => {
     const cartPage = new CartPage(page);
-    await inventoryPage.addThirdElementToCart();
-    await page.screenshot({ path: 'visual_comparison_data/inventory/addThirdElementToCart.png' });
+    await inventoryPage.addSecondElementToCart();
+    await page.screenshot({ path: 'visual_comparison_data/inventory/addSecondElementToCart.png' });
     await inventoryPage.navigateToCart();
     await page.isVisible(locatorsCart.checkOutButtonText);
     await page.click(locatorsCart.checkOutButton);

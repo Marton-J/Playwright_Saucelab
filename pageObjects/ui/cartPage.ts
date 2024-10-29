@@ -6,10 +6,11 @@ import { Page } from 'playwright';
 export class CartPage {
     private page: Page;
     private locatorsCart = locatorsCart;
-    private locatorsCheckout = locatorsCheckout;
+    readonly badgeElementLocator: string;
 
     constructor(page: Page) {
         this.page = page;
+        this.badgeElementLocator = locatorsCart.badgeElement;
     }
 
     async verifyPageTitle() {
@@ -54,4 +55,23 @@ export class CartPage {
         await this.verifyRemoveButton();
         await this.verifyContinueShoppingButton();
     }
+
+    async getCartItemNames(): Promise<string[]> {
+        const itemNameLocator = this.page.locator('.inventory_item_name');
+        const itemCount = await itemNameLocator.count();
+        const itemNames: string[] = [];
+        for (let i = 0; i < itemCount; i++) {
+            const itemName = await itemNameLocator.nth(i).textContent();
+            if (itemName) {
+                itemNames.push(itemName.trim());
+            }
+        }
+        return itemNames;
+    }
+
+    async verifyBadgeElement(expectedText: string) {
+        const badgeElement = this.page.locator(this.badgeElementLocator);
+        await expect(badgeElement).toBeVisible();
+        await expect(badgeElement).toHaveText(expectedText);
+      }
 }

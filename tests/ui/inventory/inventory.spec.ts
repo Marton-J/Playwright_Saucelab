@@ -32,7 +32,6 @@ test.describe('Inventory product flow standard_user', {
 
   test('Inventory product - Sort on: Price (low to high)', async () => {
     await inventoryPage.inventoryProductSortByPrice();
-
     await page.screenshot({ path: 'visual_comparison_data/inventory/inventoryProductSortByPrice.png' });
   });
 
@@ -43,6 +42,8 @@ test.describe('Inventory product flow standard_user', {
   });
 
   test('Inventory product - Sort on: Name (A to Z)', async () => {
+    await page.getByText(locatorsInventory.sortByName).isVisible();
+    await page.getByText(locatorsInventory.sortByName).click();
     await inventoryPage.inventoryProductSortByNameAZ();
 
     await page.screenshot({ path: 'visual_comparison_data/inventory/inventoryProductSortByNameAZ.png' });

@@ -11,4 +11,5 @@ export const locatorsCart = {
   continueShoppingButtonText: 'Continue Shopping',
   checkOutButton: '[data-test="checkout"]',
   checkOutButtonText: 'Checkout',
+  badgeElement: '.shopping_cart_badge'
 };

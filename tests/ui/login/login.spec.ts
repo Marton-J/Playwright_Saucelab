@@ -18,7 +18,7 @@ test.describe('Purchase product flow standard_user', {
     page = await browser.newPage();
     loginPage = new LoginPage(page);
     await loginPage.performLogin();
-    await page.screenshot({ path: 'visual_comparison_data/login/start.png' });
+    await page.screenshot({ path: 'visual_comparison_data/login/login.png' });
   });
 
   test.afterEach(async () => {
