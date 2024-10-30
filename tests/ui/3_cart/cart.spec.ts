@@ -27,7 +27,7 @@ test.describe('Cart product flow standard_user', {
     checkoutPage = new CheckoutPage(page);
     await loginPage.performLogin();
     await loginPage.login(process.env.USERNAME ?? '', process.env.PASSWORD ?? '');
-    const currentUrl = await page.url();
+    const currentUrl = page.url();
     expect(currentUrl).toBe(locatorsInventory.inventoryPageTile);
   });
 

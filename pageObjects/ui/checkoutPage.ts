@@ -5,10 +5,10 @@ import { Page } from 'playwright';
 const fs = require('fs');
 
 export class CheckoutPage {
-  private page: Page;
-  private locatorsCheckout = locatorsCheckout;
+  private readonly page: Page;
+  private readonly locatorsCheckout = locatorsCheckout;
   readonly badgeElementLocator: string;
-  private continueButton: string;
+  private readonly continueButton: string;
 
   constructor(page: Page) {
     this.page = page;

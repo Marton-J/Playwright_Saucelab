@@ -18,11 +18,5 @@ export const locatorsCheckout = {
     firstNameValue: 'Ash',
     lastNameValue: 'Ketchum',
     postalCodeValue: '12345',
-    finishButton: 'button[data-test="finish"]',
-    screenshotPath02: 'locators/visualComparisonLocators/02_inventory.png',
-    snapshotPath02: 'tests/ui/5_e2e_test/locators-visualComparisonLocators-02-inventory-chromium-darwin.png',
-    screenshotPath03: 'locators/visualComparisonLocators/03_addLastElementToCartBasedOnPrice.png',
-    snapshotPath03: 'tests/ui/5_e2e_test/locators-visualComparisonLocators-03-addLastElementToCartBasedOnPrice-chromium-darwin.png',
-    screenshotPath04: 'locators/visualComparisonLocators/locators-visualComparisonLocators-04-addSecondElementToCartBasedOnAlphabeticalOrder-chromium-darwin.png',
-    snapshotPath04: 'tests/ui/5_e2e_test/visualComparisonLocators-04.png'
+    finishButton: 'button[data-test="finish"]'
 };

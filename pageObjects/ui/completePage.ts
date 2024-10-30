@@ -2,7 +2,7 @@ import { Page } from 'playwright';
 import { expect } from 'playwright/test';
 
 class CompletePage {
-  constructor(private page: Page) {}
+  constructor(private readonly page: Page) {}
 
   async verifyCompletePage(locatorsComplete: any) {
     await this.page.locator(locatorsComplete.title).isVisible();

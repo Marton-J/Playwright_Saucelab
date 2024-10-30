@@ -1,5 +1,3 @@
-import { InventoryPage } from "../../pageObjects/ui/inventoryPage";
-
 export const locatorsInventory = {
     inventoryPageTile: 'https://www.saucedemo.com/inventory.html',
     sortDropdown: '[data-test="product-sort-container"]',

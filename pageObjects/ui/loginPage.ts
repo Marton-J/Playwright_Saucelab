@@ -3,8 +3,8 @@ import { expect } from '@playwright/test';
 import { Page } from 'playwright';
 
 export class LoginPage {
-    private page: Page;
-    private locatorsLogin = locatorsLogin;
+    private readonly page: Page;
+    private readonly locatorsLogin = locatorsLogin;
 
     constructor(page: Page) {
         this.page = page;
@@ -12,7 +12,7 @@ export class LoginPage {
 
     async performLogin() {
         await this.page.goto('/');
-        const currentUrl = await this.page.url();
+        const currentUrl = this.page.url();
         expect(currentUrl).toBe(this.locatorsLogin.urlVerification);
         await this.checkLoginPageElements();
         await this.verifyUsernames();

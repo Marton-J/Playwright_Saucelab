@@ -3,8 +3,10 @@ import { locatorsInventory } from '../../locators/ui/locatorsInventory';
 import { Page } from 'playwright';
 
 export class InventoryPage {
-    private page: Page;
-    private locatorsInventory = locatorsInventory;
+    private readonly page: Page;
+
+
+    private readonly locatorsInventory: any = locatorsInventory;
     readonly badgeElementLocator: string;
 
     constructor(page: Page) {
@@ -54,14 +56,7 @@ export class InventoryPage {
     // The following method is used in the test file for adding the last element to the cart
     async addElementToCart(position: 'first' | 'second' | 'third' | 'fourth' | 'fifth' | 'last') {
         const elements = await this.page.locator(this.locatorsInventory.addToCart).elementHandles();
-        const dataTestAttributes: string[] = [];
-        for (const element of elements) {
-            const dataTest = await element.getAttribute(this.locatorsInventory.getDataAttribute);
-            if (dataTest) {
-                dataTestAttributes.push(dataTest);
-            }
-        }
-
+    
         if (elements.length > 0) {
             let index: number;
             switch (position) {
@@ -86,7 +81,7 @@ export class InventoryPage {
                 default:
                     throw new Error(`Invalid position: ${position}`);
             }
-
+    
             if (index >= 0 && index < elements.length) {
                 await elements[index].click();
             } else {

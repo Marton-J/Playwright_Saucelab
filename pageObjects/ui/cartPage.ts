@@ -1,11 +1,10 @@
 import { expect } from 'playwright/test';
 import { locatorsCart } from '../../locators/ui/locatorsCart';
-import { locatorsCheckout } from '../../locators/ui/locatorsCheckout';
 import { Page } from 'playwright';
 
 export class CartPage {
-    private page: Page;
-    private locatorsCart = locatorsCart;
+    private readonly page: Page;
+    private readonly locatorsCart = locatorsCart;
     readonly badgeElementLocator: string;
 
     constructor(page: Page) {

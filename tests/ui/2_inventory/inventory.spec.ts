@@ -23,7 +23,7 @@ test.describe('Inventory product flow standard_user', {
     inventoryPage = new InventoryPage(page);
     await loginPage.performLogin();
     await loginPage.login(process.env.USERNAME ?? '', process.env.PASSWORD ?? '');
-    const currentUrl = await page.url();
+    const currentUrl = page.url();
     expect(currentUrl).toBe(locatorsInventory.inventoryPageTile);
   });
 

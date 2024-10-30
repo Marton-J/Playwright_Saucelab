@@ -31,7 +31,7 @@ test.describe('Checkout product flow standard_user', {
     checkoutPage = new CheckoutPage(page);
     await loginPage.performLogin();
     await loginPage.login(process.env.USERNAME ?? '', process.env.PASSWORD ?? '');
-    const currentUrl = await page.url();
+    const currentUrl = page.url();
     expect(currentUrl).toBe(locatorsInventory.inventoryPageTile);
   });
 
@@ -40,32 +40,30 @@ test.describe('Checkout product flow standard_user', {
   });
 
   test('Inventory Third product - Proceed to checkout and press Cancel', async () => {
-    const cartPage = new CartPage(page);
-    await inventoryPage.addSecondElementToCart();
-    await inventoryPage.navigateToCart();
-    await page.isVisible(locatorsCart.checkOutButtonText);
-    await page.click(locatorsCart.checkOutButton);
-    await checkoutPage.verifyAppLogo();
-    await checkoutPage.verifyTitle();
-    await checkoutPage.verifyFirstNameInput();
-    await checkoutPage.verifyLastNameInput();
-    await checkoutPage.verifyPostalCodeInput();
-    await checkoutPage.verifyCancelButton();
-    await checkoutPage.verifyContinueButton();
-    await checkoutPage.verifyBadgeElement('1');
-    await checkoutPage.cancelFromCheckoutToCart();
+      await inventoryPage.addSecondElementToCart();
+      await inventoryPage.navigateToCart();
+      await page.isVisible(locatorsCart.checkOutButtonText);
+      await page.click(locatorsCart.checkOutButton);
+      await checkoutPage.verifyAppLogo();
+      await checkoutPage.verifyTitle();
+      await checkoutPage.verifyFirstNameInput();
+      await checkoutPage.verifyLastNameInput();
+      await checkoutPage.verifyPostalCodeInput();
+      await checkoutPage.verifyCancelButton();
+      await checkoutPage.verifyContinueButton();
+      await checkoutPage.verifyBadgeElement('1');
+      await checkoutPage.cancelFromCheckoutToCart();
   });
 
   test('Inventory Second product - Fill out customer details with valid customer information', async () => {
-    const cartPage = new CartPage(page);
-    await inventoryPage.addSecondElementToCart();
-    await inventoryPage.navigateToCart();
-    await page.isVisible(locatorsCart.checkOutButtonText);
-    await page.click(locatorsCart.checkOutButton);
-    await checkoutPage.fillFirstName(locatorsCheckout.firstNameValue);
-    await checkoutPage.fillLastName(locatorsCheckout.lastNameValue);
-    await checkoutPage.fillPostalCode(locatorsCheckout.postalCodeValue);
-    await checkoutPage.verifyInputValues(locatorsCheckout.firstNameValue, locatorsCheckout.lastNameValue, locatorsCheckout.postalCodeValue);
-    await page.click(locatorsCheckout.continueButton)
+      await inventoryPage.addSecondElementToCart();
+      await inventoryPage.navigateToCart();
+      await page.isVisible(locatorsCart.checkOutButtonText);
+      await page.click(locatorsCart.checkOutButton);
+      await checkoutPage.fillFirstName(locatorsCheckout.firstNameValue);
+      await checkoutPage.fillLastName(locatorsCheckout.lastNameValue);
+      await checkoutPage.fillPostalCode(locatorsCheckout.postalCodeValue);
+      await checkoutPage.verifyInputValues(locatorsCheckout.firstNameValue, locatorsCheckout.lastNameValue, locatorsCheckout.postalCodeValue);
+      await page.click(locatorsCheckout.continueButton)
   });
 });

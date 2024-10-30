@@ -26,9 +26,9 @@ export async function setup() {
   completePage = new CompletePage(page);
   cartPage = new CartPage(page);
   await loginPage.performLogin();
-  await page.screenshot({ path: 'visualComparisonImages/01_login.png' });
+
   await loginPage.login(process.env.USERNAME ?? '', process.env.PASSWORD ?? '');
-  const currentUrl = await page.url();
+  const currentUrl = page.url();
   expect(currentUrl).toBe(locatorsInventory.inventoryPageTile);
 }
 
