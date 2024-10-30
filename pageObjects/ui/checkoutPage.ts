@@ -94,7 +94,7 @@ export class CheckoutPage {
     if (!fs.existsSync(snapshotPath)) {
       await page.screenshot({ path: screenshotPath });
     }
-    await page.waitForTimeout(1000);
+    await page.waitForTimeout(2000);
     await expect(page).toHaveScreenshot(screenshotPath);
   }
 }
