@@ -11,8 +11,8 @@ import * as dotenv from 'dotenv';
 
 dotenv.config();
 
-let browser;
-let page;
+let browser: import('@playwright/test').Browser;
+let page: import('@playwright/test').Page;
 let loginPage: LoginPage;
 let inventoryPage: InventoryPage;
 let cartPage: CartPage;

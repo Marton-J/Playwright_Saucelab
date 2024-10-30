@@ -8,7 +8,7 @@ export default defineConfig({
     video: 'retain-on-failure',
   },
   expect: {
-    // Set a higher threshold for toMatchScreenshot for visual tests.
+    // Set a higher threshold for toMatchScreenshot for visual tests, to fail test and ser report set it below 0.16
     toHaveScreenshot: {
       maxDiffPixelRatio: 0.17,
     },
@@ -52,26 +52,6 @@ export default defineConfig({
       name: 'webkit',
       use: { ...devices['Desktop Safari'] },
     },
-
-    /* Test against mobile viewports. */
-    // {
-    //   name: 'Mobile Chrome',
-    //   use: { ...devices['Pixel 5'] },
-    // },
-    // {
-    //   name: 'Mobile Safari',
-    //   use: { ...devices['iPhone 12'] },
-    // },
-
-    /* Test against branded browsers. */
-    // {
-    //   name: 'Microsoft Edge',
-    //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
-    // },
-    // {
-    //   name: 'Google Chrome',
-    //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
-    // },
   ],
   timeout: 10000,
 });

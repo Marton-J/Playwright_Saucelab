@@ -2,14 +2,18 @@ import { expect } from '@playwright/test';
 import { locatorsCheckout } from '../../locators/ui/locatorsCheckout';
 import { Page } from 'playwright';
 
+const fs = require('fs');
+
 export class CheckoutPage {
   private page: Page;
   private locatorsCheckout = locatorsCheckout;
   readonly badgeElementLocator: string;
+  private continueButton: string;
 
   constructor(page: Page) {
     this.page = page;
     this.badgeElementLocator = locatorsCheckout.badgeElement;
+    this.continueButton = locatorsCheckout.continueButton;
   }
 
   async verifyAppLogo() {
@@ -80,6 +84,18 @@ export class CheckoutPage {
     expect(await this.page.inputValue(this.locatorsCheckout.firstNameInput)).toBe(firstName);
     expect(await this.page.inputValue(this.locatorsCheckout.lastNameInput)).toBe(lastName);
     expect(await this.page.inputValue(this.locatorsCheckout.postalCodeInput)).toBe(postalCode);
+  }
+
+  async clickContinueButton() {
+    await this.page.click(this.continueButton);
+  }
+
+  async takeScreenshotIfNotExists(page, snapshotPath, screenshotPath) {
+    if (!fs.existsSync(snapshotPath)) {
+      await page.screenshot({ path: screenshotPath });
+    }
+    await page.waitForTimeout(1000);
+    await expect(page).toHaveScreenshot(screenshotPath);
   }
 }
 

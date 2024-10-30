@@ -9,8 +9,8 @@ import { CheckoutPage } from '../../../pageObjects/ui/checkoutPage';
 
 dotenv.config();
 
-let browser;
-let page;
+let browser: any;
+let page: Page;
 let loginPage: LoginPage;
 let inventoryPage: InventoryPage;
 let checkoutPage: CheckoutPage;
