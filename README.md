@@ -8,7 +8,7 @@ Follow these steps to set up the project:
 
 1. Initialize a new Playwright project:
     ```sh
-    npm init playwright@latest
+    npx playwright install
     ```
     This command will guide you through setting up a new Playwright project. It will create the necessary configuration files and install Playwright.
 
