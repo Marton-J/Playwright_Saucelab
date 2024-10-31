@@ -21,6 +21,8 @@ Follow these steps to set up the project:
 ## Install Playwright Test for VSCode (Optional)
 For an easier and more integrated testing experience, install the Playwright Test for VSCode extension. This extension provides features such as running tests directly from the editor, viewing test results, and navigating through failures.
 
+<img width="1505" alt="image" src="https://github.com/user-attachments/assets/a2d88624-69c3-4a7b-b145-c24ade14c7ad">
+
 1. Open Extensions in VSCode.
 2. Search for `Playwright Test for VSCode`.
 3. Click `Install`.
